@@ -1,78 +1,29 @@
 import random
-stages = [r'''
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-=========
-''', r'''
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-=========
-''', r'''
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========
-''']
-word_list = ["aardvark", "baboon", "camel"]
+import hangman_art
+import hangman_words
+print(hangman_art.logo)
 
 lives = 6
-
-chosen_word = random.choice(word_list)
+chosen_word = random.choice(hangman_words.word_list)
 print(chosen_word)
 
 placeholder = ""
 word_length = len(chosen_word)
 for position in range(word_length):
     placeholder += "_"
-print(placeholder)
+print("Word to guess: " + placeholder)
 
 game_over = False
 correct_letters = []
 
 while not game_over:
+
+    print(f"****************************{lives}/6 LIVES LEFT****************************")
     guess = input("Guess a letter: ").lower()
+
+
+    if guess in correct_letters:
+        print(f"You already guessed '{guess}'")
 
     display = ""
 
@@ -85,17 +36,19 @@ while not game_over:
         else:
             display += "_"
 
-    print(display)
+    print("Word to guess: " + display)
 
-    if guess not in correct_letters:
+    if guess not in chosen_word:
+        print(f"You guessed {guess}, that's not in the word. You lose a life.")
         lives -= 1
-        print(stages[lives])
+
         if lives == 0:
             game_over = True
-            print("You Lose!")
+
+            print(f"*********************** It was {chosen_word}, YOU LOSE **********************")
 
     if "_" not in display:
         game_over = True
-        print("You win.")
+        print("****************************YOU WIN****************************")
 
-    print(stages[lives])
+    print(hangman_art.stages[lives])
